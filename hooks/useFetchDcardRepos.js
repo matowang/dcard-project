@@ -6,6 +6,7 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
     const [hasNext, setHasNext] = useState(true);
     const [error, setError] = useState('');
 
+    //Used when user uses same query from the past to prevent refetching
     const storedFetches = useRef({});
 
     const fetchController = useRef();
@@ -16,6 +17,7 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
 
             setLoading(true);
 
+            //Abort previous fetch when new query comes
             if (fetchController.current) fetchController.current.abort();
             fetchController.current = new AbortController();
 
