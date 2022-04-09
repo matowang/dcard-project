@@ -1,0 +1,13 @@
+@use './repoCard';
+@use './dropdown';
+
+.index {
+    padding: 0 3em;
+}
+
+.repo-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 2em;
+}
