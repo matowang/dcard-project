@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 
 import useFetchDcardRepos from '../hooks/useFetchDcardRepos';
 import useNextPageOnView from '../hooks/useNextPageOnView';
@@ -23,7 +23,7 @@ const Index = () => {
   const handleForm = () => {
     setPage(1);
   }
-  //Detect last card
+
   const { lastCardRef } = useNextPageOnView(setPage, hasNext, loading);
 
 
