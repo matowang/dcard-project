@@ -1,6 +1,21 @@
 @use './repoCard';
 @use './dropdown';
 
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    &__form {
+        display: flex;
+        gap: 2em;
+    }
+}
+
 .index {
     padding: 0 3em;
 }

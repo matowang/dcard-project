@@ -37,24 +37,27 @@ const Index = () => {
   }
   return (
     <main className="index" >
-      <h1>Dcard Repos</h1>
-      <header>
-        {loading && page === 1 && <div className="linear-progress-container"><LinearProgress /></div>}
-        <form onChange={handleForm}>
-          <label>Type:
-            <select value={type} className="dropdown" onChange={(e) => { setType(e.target.value) }}>{types.map((item) =>
-              <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
-            )}</select>
+      {loading && page === 1 && <div className="linear-progress-container"><LinearProgress /></div>}
+      <header className="header">
+        <h1>Dcard Repos</h1>
+        <form className="header__form" onChange={handleForm}>
+          <label className="dropdown-label" >Type:
+            <select value={type} className="dropdown"
+              onChange={(e) => { setType(e.target.value) }}>{types.map((item) =>
+                <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
+              )}</select>
           </label>
-          <label>Sort:
-            <select value={sort} className="dropdown" onChange={(e) => { setSort(e.target.value) }}>{sorts.map((item) =>
-              <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
-            )}</select>
+          <label className="dropdown-label">Sort:
+            <select value={sort} className="dropdown"
+              onChange={(e) => { setSort(e.target.value) }}>{sorts.map((item) =>
+                <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
+              )}</select>
           </label>
-          <label>Direction:
-            <select value={direction} className="dropdown" onChange={(e) => { setDirection(e.target.value) }}>{directions.map((item) =>
-              <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
-            )}</select>
+          <label className="dropdown-label">Direction:
+            <select value={direction} className="dropdown"
+              onChange={(e) => { setDirection(e.target.value) }}>{directions.map((item) =>
+                <option className="dropdown__item" key={'ditem-' + item}>{item}</option>
+              )}</select>
           </label>
         </form>
       </header>
