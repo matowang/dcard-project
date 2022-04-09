@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 
 import useFetchDcardRepos from '../hooks/useFetchDcardRepos';
+import useNextPageOnView from '../hooks/useNextPageOnView';
 
 import { CircularProgress, LinearProgress } from '@mui/material';
 
@@ -19,22 +20,13 @@ const Index = () => {
 
   const { reposData, loading, hasNext, error } = useFetchDcardRepos(page, sort, type, direction);
 
-
-  const observer = useRef();
-  const lastCardRef = useCallback((node) => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasNext) {
-        setPage(prevPageNumber => prevPageNumber + 1)
-      }
-    })
-    if (node) observer.current.observe(node)
-  }, [hasNext, loading])
-
-  const handleForm = (e) => {
+  const handleForm = () => {
     setPage(1);
   }
+  //Detect last card
+  const { lastCardRef } = useNextPageOnView(setPage, hasNext, loading);
+
+
   return (
     <main className="index" >
       {loading && page === 1 && <div className="linear-progress-container"><LinearProgress /></div>}
