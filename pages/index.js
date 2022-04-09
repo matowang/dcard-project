@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 
 import useFetchDcardRepos from '../hooks/useFetchDcardRepos';
 
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, LinearProgress } from '@mui/material';
 
 import RepoCard from '../components/repoCard';
 
@@ -33,13 +33,13 @@ const Index = () => {
   }, [hasNext, loading])
 
   const handleForm = (e) => {
-    console.log("update form");
     setPage(1);
   }
   return (
     <main className="index" >
       <h1>Dcard Repos</h1>
       <header>
+        {loading && page === 1 && <div className="linear-progress-container"><LinearProgress /></div>}
         <form onChange={handleForm}>
           <label>Type:
             <select value={type} className="dropdown" onChange={(e) => { setType(e.target.value) }}>{types.map((item) =>
@@ -65,6 +65,9 @@ const Index = () => {
           </div> :
           <RepoCard {...data} />}
       </li>)}</ul>
+      {!error && !reposData.length && <p>No Repos to show</p>}
+      {error && <p className="error-message">ERROR: {error}</p>}
+      {loading && <div className="circular-progress-container"><CircularProgress /></div>}
     </main >
   )
 }

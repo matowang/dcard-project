@@ -11,3 +11,18 @@
     display: grid;
     gap: 2em;
 }
+
+.linear-progress-container {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.circular-progress-container {
+    height: 5em;
+}
+
+.error-message {
+    color: red;
+}
