@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 import useFetchDcardRepos from '../hooks/useFetchDcardRepos';
+
+import { CircularProgress } from '@mui/material';
 
 import RepoCard from '../components/repoCard';
 
@@ -15,7 +17,20 @@ const Index = () => {
 
   const [page, setPage] = useState(1);
 
-  const [reposData] = useFetchDcardRepos(page, sort, type, direction);
+  const { reposData, loading, hasNext, error } = useFetchDcardRepos(page, sort, type, direction);
+
+
+  const observer = useRef();
+  const lastCardRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasNext) {
+        setPage(prevPageNumber => prevPageNumber + 1)
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [hasNext, loading])
 
   const handleForm = (e) => {
     console.log("update form");
@@ -43,10 +58,14 @@ const Index = () => {
           </label>
         </form>
       </header>
-      <ul className="repo-list">{reposData.map(data => <li className="repo-list__item" key={data.id}>
-        <RepoCard {...data} />
+      <ul className="repo-list">{reposData.map((data, i) => <li className="repo-list__item" key={data.id}>
+        {i + 1 === reposData.length ?
+          <div style={{ border: "red" }} ref={lastCardRef}>
+            <RepoCard {...data} />
+          </div> :
+          <RepoCard {...data} />}
       </li>)}</ul>
-    </main>
+    </main >
   )
 }
 
