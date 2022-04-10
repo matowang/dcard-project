@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react"
 
 const useFetchDcardRepos = (page, sort, type, direction) => {
     const [reposData, setReposData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [hasNext, setHasNext] = useState(true);
     const [error, setError] = useState('');
 
@@ -10,6 +10,11 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
     const storedFetches = useRef({});
 
     const fetchController = useRef();
+
+    //set empty with new query
+    useEffect(() => {
+        setReposData([]);
+    }, ([sort, type, direction]));
 
     useEffect(() => {
 
@@ -35,20 +40,21 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
                         signal: fetchController.current.signal
                     });
                     fetchedRepos = await res.json();
+
+                    if (fetchedRepos.constructor.name !== 'Array') throw 'Rate Limit Exceeded';
                     storedFetches.current[queryKey] = fetchedRepos;
                 }
-                if (page === 1) {
-                    setReposData(fetchedRepos);
-                } else {
-                    setReposData([...reposData, ...fetchedRepos]);
-                }
+
+                setReposData(prevReposData => [...prevReposData, ...fetchedRepos]);
                 setHasNext(!!fetchedRepos.length);
                 setError('');
             } catch (e) {
+                if (e.name === 'AbortError') return
                 console.error(e);
                 setError(e.toString());
             }
             setLoading(false);
+            return () => fetchController.current.abort();
         }
 
         fetchRepos();

@@ -60,7 +60,7 @@ const Index = () => {
           </div> :
           <RepoCard {...data} />}
       </li>)}</ul>
-      {!error && !reposData.length && <p>No Repos to show</p>}
+      {!error && !loading && !reposData.length && <p>No Repos to show</p>}
       {error && <p className="error-message">ERROR: {error}</p>}
       {loading && <div className="circular-progress-container"><CircularProgress /></div>}
     </main >
