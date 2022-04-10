@@ -20,7 +20,6 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
             //Abort previous fetch when new query comes
             if (fetchController.current) fetchController.current.abort();
             fetchController.current = new AbortController();
-
             try {
                 let fetchedRepos;
                 const queryKey = page + sort + type + direction;
@@ -32,6 +31,7 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
                     const res = await fetch(`https://api.github.com/orgs/dcard/repos?type=${type}&sort=${sort}&page=${page}&direction=${direction}&per_page=10`, {
                         headers: {
                             'accept': "application/vnd.github.v3+json",
+                            'Authorization': 'token ' + process.env.GITHUB_TOKEN,
                         },
                         signal: fetchController.current.signal
                     });
