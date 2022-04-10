@@ -31,7 +31,6 @@ const useFetchDcardRepos = (page, sort, type, direction) => {
                     const res = await fetch(`https://api.github.com/orgs/dcard/repos?type=${type}&sort=${sort}&page=${page}&direction=${direction}&per_page=10`, {
                         headers: {
                             'accept': "application/vnd.github.v3+json",
-                            'Authorization': 'token ' + process.env.GITHUB_TOKEN,
                         },
                         signal: fetchController.current.signal
                     });
